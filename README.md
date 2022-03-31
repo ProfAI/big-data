@@ -1,4 +1,4 @@
-# Corso pratico ai Big Dati
+# Corso pratico ai Big Data
 
 
 ## Lista delle lezioni
