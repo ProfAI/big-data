@@ -1,0 +1,363 @@
+﻿{
+  "paragraphs": [
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649440361198_953560033",
+      "id": "paragraph_1649440361198_953560033",
+      "dateCreated": "2022-04-08T17:52:41+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:67",
+      "text": "%spark.pyspark\nimport pyspark\nfrom pyspark.sql import *",
+      "dateUpdated": "2022-04-08T17:53:49+0000",
+      "dateFinished": "2022-04-08T17:53:30+0000",
+      "dateStarted": "2022-04-08T17:52:59+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    },
+    {
+      "text": "%spark.pyspark\nMOVIES_CSV_FILE = \"s3://profai-buck/movies.csv\"\nRATINGS_CSV_FILE = \"s3://profai-buck/ratings.csv\"\nSPARK_APP_NAME = \"MoviesSparkDemo\"",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:00:21+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649440666956_2030564516",
+      "id": "paragraph_1649440666956_2030564516",
+      "dateCreated": "2022-04-08T17:57:46+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:369",
+      "dateFinished": "2022-04-08T18:00:21+0000",
+      "dateStarted": "2022-04-08T18:00:21+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    },
+    {
+      "text": "%spark.pyspark\nspark = SparkSession.builder.master(\"local[1]\").appName(SPARK_APP_NAME).getOrCreate()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:00:25+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649440379132_747956027",
+      "id": "paragraph_1649440379132_747956027",
+      "dateCreated": "2022-04-08T17:52:59+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:213",
+      "dateFinished": "2022-04-08T18:00:25+0000",
+      "dateStarted": "2022-04-08T18:00:25+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    },
+    {
+      "text": "%spark.pyspark\ndf_movies = spark.read.csv(MOVIES_CSV_FILE, header = True)\ndf_movies.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:08:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-86-130.ec2.internal:4040/jobs/job?id=6",
+              "$$hashKey": "object:833"
+            },
+            {
+              "jobUrl": "http://ip-172-31-86-130.ec2.internal:4040/jobs/job?id=7",
+              "$$hashKey": "object:834"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649440419334_1180818449",
+      "id": "paragraph_1649440419334_1180818449",
+      "dateCreated": "2022-04-08T17:53:39+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:294",
+      "dateFinished": "2022-04-08T18:08:23+0000",
+      "dateStarted": "2022-04-08T18:08:14+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+--------------------+--------------------+\n|movieId|               title|              genres|\n+-------+--------------------+--------------------+\n|      1|    Toy Story (1995)|Adventure|Animati...|\n|      2|      Jumanji (1995)|Adventure|Childre...|\n|      3|Grumpier Old Men ...|      Comedy|Romance|\n|      4|Waiting to Exhale...|Comedy|Drama|Romance|\n|      5|Father of the Bri...|              Comedy|\n|      6|         Heat (1995)|Action|Crime|Thri...|\n|      7|      Sabrina (1995)|      Comedy|Romance|\n|      8| Tom and Huck (1995)|  Adventure|Children|\n|      9| Sudden Death (1995)|              Action|\n|     10|    GoldenEye (1995)|Action|Adventure|...|\n|     11|American Presiden...|Comedy|Drama|Romance|\n|     12|Dracula: Dead and...|       Comedy|Horror|\n|     13|        Balto (1995)|Adventure|Animati...|\n|     14|        Nixon (1995)|               Drama|\n|     15|Cutthroat Island ...|Action|Adventure|...|\n|     16|       Casino (1995)|         Crime|Drama|\n|     17|Sense and Sensibi...|       Drama|Romance|\n|     18|   Four Rooms (1995)|              Comedy|\n|     19|Ace Ventura: When...|              Comedy|\n|     20|  Money Train (1995)|Action|Comedy|Cri...|\n+-------+--------------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%spark.pyspark\ndf_ratings = spark.read.csv(RATINGS_CSV_FILE, header = True)\ndf_ratings.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:33:18+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-86-130.ec2.internal:4040/jobs/job?id=10",
+              "$$hashKey": "object:942"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649440828605_1184718780",
+      "id": "paragraph_1649440828605_1184718780",
+      "dateCreated": "2022-04-08T18:00:28+0000",
+      "status": "ERROR",
+      "focus": true,
+      "$$hashKey": "object:456",
+      "dateFinished": "2022-04-08T18:33:27+0000",
+      "dateStarted": "2022-04-08T18:33:18+0000",
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Fail to execute line 3: df_ratings.describe.show()\nTraceback (most recent call last):\n  File \"/tmp/1649440410141-0/zeppelin_python.py\", line 158, in <module>\n    exec(code, _zcUserQueryNameSpace)\n  File \"<stdin>\", line 3, in <module>\nAttributeError: 'function' object has no attribute 'show'\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%spark.pyspark\ndf_movies.registerTempTable('movies')\ndf_ratings.registerTempTable('ratings')",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:35:37+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649441122916_2016407078",
+      "id": "paragraph_1649441122916_2016407078",
+      "dateCreated": "2022-04-08T18:05:22+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:642",
+      "dateFinished": "2022-04-08T18:35:38+0000",
+      "dateStarted": "2022-04-08T18:35:37+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    },
+    {
+      "text": "%spark.pyspark\nsqlContext.sql(\"describe movies\").show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:36:33+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649442916792_1590683333",
+      "id": "paragraph_1649442916792_1590683333",
+      "dateCreated": "2022-04-08T18:35:16+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:961",
+      "dateFinished": "2022-04-08T18:36:33+0000",
+      "dateStarted": "2022-04-08T18:36:33+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------+---------+-------+\n|col_name|data_type|comment|\n+--------+---------+-------+\n| movieId|   string|   null|\n|   title|   string|   null|\n|  genres|   string|   null|\n+--------+---------+-------+\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%spark.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-04-08T18:36:19+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1649442979391_908714338",
+      "id": "paragraph_1649442979391_908714338",
+      "dateCreated": "2022-04-08T18:36:19+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:1039"
+    }
+  ],
+  "name": "2-HandOn-Spark-SQL",
+  "id": "2GZV7FZ96",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/2-HandOn-Spark-SQL"
+}
