@@ -1,4 +1,4 @@
-## 1 SparkSQL
+## 2 SparkSQL
 
 In questa cartella sono presenti i notebook  che sono stati visti durante la lezione e il file Dockercompose che permette di creare, in locale, l'ambiente di sviluppo composto da:
 * Spark master
