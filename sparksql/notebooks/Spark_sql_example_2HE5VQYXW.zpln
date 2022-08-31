@@ -1,0 +1,663 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n## Spark sql example\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.955",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eSpark sql example\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265955_640557896",
+      "id": "paragraph_1661271244542_895748092",
+      "dateCreated": "2022-08-29 18:37:45.955",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nImportiamo pyspark e creiamo una sessione",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.955",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eImportiamo pyspark e creiamo una sessione\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265955_794937116",
+      "id": "paragraph_1661271321935_1040312109",
+      "dateCreated": "2022-08-29 18:37:45.955",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nspark \u003d SparkSession.builder.getOrCreate()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1570928308",
+      "id": "paragraph_1661610261415_1118954140",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nDefiniamo il dataframe",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eDefiniamo il dataframe\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1189019503",
+      "id": "paragraph_1661271350071_1840003434",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom datetime import datetime, date\nfrom pyspark.sql import Row\ndf \u003d spark.createDataFrame([\n    Row(age\u003d21, salary\u003d2000., name\u003d\u0027Lisa\u0027, dept\u003d\u0027sales\u0027, hire\u003ddate(2019, 1, 1)),\n    Row(age\u003d32, salary\u003d3000., name\u003d\u0027Marco\u0027, dept\u003d\u0027engineering\u0027, hire\u003ddate(2010, 2, 1)),\n    Row(age\u003d44, salary\u003d5000., name\u003d\u0027Andrea\u0027, dept\u003d\u0027ceo\u0027, hire\u003ddate(2000, 3, 1))\n])\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_2104962797",
+      "id": "paragraph_1661610312122_1537710688",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nVerifichiamo lo schema del dataframe",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eVerifichiamo lo schema del dataframe\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1611938300",
+      "id": "paragraph_1661271399011_900711126",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndf.printSchema()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- age: long (nullable \u003d true)\n |-- salary: double (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n |-- dept: string (nullable \u003d true)\n |-- hire: date (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1496179474",
+      "id": "paragraph_1661610382859_1617893976",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nSelezioniamo la colonna \"name\"",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSelezioniamo la colonna \u0026ldquo;name\u0026rdquo;\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1807202027",
+      "id": "paragraph_1661271420855_693094729",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndf.select(\"name\").show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+\n|  name|\n+------+\n|  Lisa|\n| Marco|\n|Andrea|\n+------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1919205767",
+      "id": "paragraph_1661610450441_638779422",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nCerchiamo tutti i dipendenti che hanno più di 25 anni",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eCerchiamo tutti i dipendenti che hanno più di 25 anni\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_483809004",
+      "id": "paragraph_1661271463214_398077968",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndf.filter(df[\"age\"]\u003e25).show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---+------+------+-----------+----------+\n|age|salary|  name|       dept|      hire|\n+---+------+------+-----------+----------+\n| 32|3000.0| Marco|engineering|2010-02-01|\n| 44|5000.0|Andrea|        ceo|2000-03-01|\n+---+------+------+-----------+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1909545349",
+      "id": "paragraph_1661610549925_1303970798",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nUtilizziamo una query SQL per cercare nei dati",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eUtilizziamo una query SQL per cercare nei dati\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_137956370",
+      "id": "paragraph_1661271507766_999119045",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndf.createOrReplaceTempView(\"people\")\nsqlDF \u003d spark.sql(\"SELECT * FROM people where age \u003e 25\")\nsqlDF.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---+------+------+-----------+----------+\n|age|salary|  name|       dept|      hire|\n+---+------+------+-----------+----------+\n| 32|3000.0| Marco|engineering|2010-02-01|\n| 44|5000.0|Andrea|        ceo|2000-03-01|\n+---+------+------+-----------+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1350594117",
+      "id": "paragraph_1661610862067_133874085",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nCalcoliamo quante persone hanno la stessa età e quale è\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eCalcoliamo quante persone hanno la stessa età e quale è\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_671233281",
+      "id": "paragraph_1661271745058_84390534",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndf.groupBy(\"age\").count().show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.956",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---+-----+\n|age|count|\n+---+-----+\n| 32|    1|\n| 44|    1|\n| 21|    1|\n+---+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265956_1015406629",
+      "id": "paragraph_1661610989039_1366154480",
+      "dateCreated": "2022-08-29 18:37:45.956",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nsqlDF \u003d spark.sql(\"SELECT age, count(*) as count FROM people group by age\")\nsqlDF.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.957",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---+-----+\n|age|count|\n+---+-----+\n| 32|    1|\n| 44|    1|\n| 21|    1|\n+---+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265957_509395711",
+      "id": "paragraph_1661611041508_617691311",
+      "dateCreated": "2022-08-29 18:37:45.957",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:37:45.957",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798265957_1705998446",
+      "id": "paragraph_1661611135438_1146136370",
+      "dateCreated": "2022-08-29 18:37:45.957",
+      "status": "READY"
+    }
+  ],
+  "name": "Spark_sql_example",
+  "id": "2HE5VQYXW",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
