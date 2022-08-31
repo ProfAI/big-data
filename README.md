@@ -3,6 +3,6 @@
 
 ## Lista delle lezioni
 
-### 0-installare-spark-cluster-single-node
+### [1-spark-zeppelin](./1-spark-zeppelin/readme.md)
 
-### 1-getting started con spark
+### [2-sparksql](./2-sparksql/readme.md)
