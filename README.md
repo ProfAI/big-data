@@ -5,4 +5,6 @@
 
 ### [1-spark-zeppelin](./1-spark-zeppelin/readme.md)
 
-### [2-sparksql](./2-sparksql/readme.md)
+### [2-spark-rdd](./2-spark-rdd/readme.md)
+
+### [3-sparksql](./3-sparksql/readme.md)

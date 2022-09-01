@@ -1,0 +1,2137 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# il Resilient Distributed Dataset (RDD)\nIl Resilient Distributed Dataset (RDD) è l\u0027astrazione principale di Spark, una collezione di elementi partizionati tra i nodi del cluster che possono essere operati in parallelo. In questo notebook vederemo le operazioni principali che possiamo eseguire su un RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.424",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eil Resilient Distributed Dataset (RDD)\u003c/h1\u003e\n\u003cp\u003eIl Resilient Distributed Dataset (RDD) è l\u0026rsquo;astrazione principale di Spark, una collezione di elementi partizionati tra i nodi del cluster che possono essere operati in parallelo. In questo notebook vederemo le operazioni principali che possiamo eseguire su un RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210424_92266854",
+      "id": "20220829-183650_1999001898",
+      "dateCreated": "2022-08-29 18:36:50.424",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n## Inizializzazione di Spark\n\nPer inizializzazione un\u0027applicazione dobbiamo creare un\u0027oggetto *SparkContext*, che indicherà a spark come accedere al cluster che abbiamo creato attraverso il dockercompose",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 19:08:16.207",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eInizializzazione di Spark\u003c/h2\u003e\n\u003cp\u003ePer inizializzazione un\u0026rsquo;applicazione dobbiamo creare un\u0026rsquo;oggetto \u003cem\u003eSparkContext\u003c/em\u003e, che indicherà a spark come accedere al cluster che abbiamo creato attraverso il dockercompose\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210425_601601543",
+      "id": "20220829-183650_93985934",
+      "dateCreated": "2022-08-29 18:36:50.425",
+      "dateStarted": "2022-08-29 19:08:16.207",
+      "dateFinished": "2022-08-29 19:08:18.163",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark import SparkContext\nsc \u003d SparkContext.getOrCreate()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 15:56:11.122",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662047745715_569749901",
+      "id": "paragraph_1662047745715_569749901",
+      "dateCreated": "2022-09-01 15:55:45.716",
+      "dateStarted": "2022-09-01 15:56:11.148",
+      "dateFinished": "2022-09-01 15:56:11.396",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Creazione di un RDD\nPossiamo creare un RDD passando una lista al metodo *.parallelize(list)* dell\u0027istanza della classe *SparkContext*.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.425",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eCreazione di un RDD\u003c/h2\u003e\n\u003cp\u003ePossiamo creare un RDD passando una lista al metodo \u003cem\u003e.parallelize(list)\u003c/em\u003e dell\u0026rsquo;istanza della classe \u003cem\u003eSparkContext\u003c/em\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210425_802297808",
+      "id": "20220829-183650_209796368",
+      "dateCreated": "2022-08-29 18:36:50.425",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndata \u003d [0,1,2,3,4,5,6,7,8,9]\ndataDist \u003d sc.parallelize(data)\ntype(dataDist)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 15:57:14.576",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "pyspark.rdd.RDD"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662047778728_313056614",
+      "id": "paragraph_1662047778728_313056614",
+      "dateCreated": "2022-09-01 15:56:18.729",
+      "dateStarted": "2022-09-01 15:57:14.602",
+      "dateFinished": "2022-09-01 15:57:15.388",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Azioni principali sul RDD\nPossiamo raccogliere i dati distribuiti dal RDD in una lista utilizzando il metodo *.collect()*.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.425",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eAzioni principali sul RDD\u003c/h2\u003e\n\u003cp\u003ePossiamo raccogliere i dati distribuiti dal RDD in una lista utilizzando il metodo \u003cem\u003e.collect()\u003c/em\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210425_865811225",
+      "id": "20220829-183650_352780524",
+      "dateCreated": "2022-08-29 18:36:50.425",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataList \u003d dataDist.collect()\nprint(type(dataList))\nprint(dataList)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 15:58:45.818",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u003cclass \u0027list\u0027\u003e\n[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d1"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662047855178_1353100808",
+      "id": "paragraph_1662047855178_1353100808",
+      "dateCreated": "2022-09-01 15:57:35.178",
+      "dateStarted": "2022-09-01 15:58:45.839",
+      "dateFinished": "2022-09-01 15:58:46.600",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSe invece volessimo ottenere soltanto n elementi, possiamo utilizzare il metodo *.take(n)*, ad esempio selezioniamo soltato 3 elementi.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.425",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSe invece volessimo ottenere soltanto n elementi, possiamo utilizzare il metodo \u003cem\u003e.take(n)\u003c/em\u003e, ad esempio selezioniamo soltato 3 elementi.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210425_998418351",
+      "id": "20220829-183650_418334090",
+      "dateCreated": "2022-08-29 18:36:50.425",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataList \u003d dataDist.take(3)\nprint(type(dataList))\nprint(dataList)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 15:59:40.805",
+      "progress": 25,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u003cclass \u0027list\u0027\u003e\n[0, 1, 2]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d2"
+            },
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d3"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662047949799_1780713850",
+      "id": "paragraph_1662047949799_1780713850",
+      "dateCreated": "2022-09-01 15:59:09.799",
+      "dateStarted": "2022-09-01 15:59:40.834",
+      "dateFinished": "2022-09-01 15:59:43.923",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nPer contare il numero di elementi di un RDD possiamo usare il metodo *.count()*.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.426",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003ePer contare il numero di elementi di un RDD possiamo usare il metodo \u003cem\u003e.count()\u003c/em\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210426_1019833176",
+      "id": "20220829-183650_463256463",
+      "dateCreated": "2022-08-29 18:36:50.426",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataDist.count()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:00:15.762",
+      "progress": 58,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "10"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662047995921_192501608",
+      "id": "paragraph_1662047995921_192501608",
+      "dateCreated": "2022-09-01 15:59:55.921",
+      "dateStarted": "2022-09-01 16:00:15.784",
+      "dateFinished": "2022-09-01 16:00:18.567",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSe invece volessimo contare il numero di elementi unici possiamo usare il metodo .countByValue(), il risultato sarà un oggetto *defaultdict* che mappa ogni elemento del RDD al numero delle volte che questo elemento viene trovato all\u0027interno del RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.426",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSe invece volessimo contare il numero di elementi unici possiamo usare il metodo .countByValue(), il risultato sarà un oggetto \u003cem\u003edefaultdict\u003c/em\u003e che mappa ogni elemento del RDD al numero delle volte che questo elemento viene trovato all\u0026rsquo;interno del RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210426_1265754589",
+      "id": "20220829-183650_1826526786",
+      "dateCreated": "2022-08-29 18:36:50.426",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataDist.countByValue()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:01:06.229",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "defaultdict(int, {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1})"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048049618_638000630",
+      "id": "paragraph_1662048049618_638000630",
+      "dateCreated": "2022-09-01 16:00:49.618",
+      "dateStarted": "2022-09-01 16:01:06.256",
+      "dateFinished": "2022-09-01 16:01:07.139",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nPossiamo ottenere gli n valori maggiori all\u0027interno del RDD usando il metodo *top(n)*",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.426",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003ePossiamo ottenere gli n valori maggiori all\u0026rsquo;interno del RDD usando il metodo \u003cem\u003etop(n)\u003c/em\u003e\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210426_1280221651",
+      "id": "20220829-183650_1928601057",
+      "dateCreated": "2022-08-29 18:36:50.426",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataDist.top(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:01:51.685",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[9, 8, 7, 6, 5]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d6"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048098556_280997333",
+      "id": "paragraph_1662048098556_280997333",
+      "dateCreated": "2022-09-01 16:01:38.556",
+      "dateStarted": "2022-09-01 16:01:51.705",
+      "dateFinished": "2022-09-01 16:01:52.605",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Altre azioni sul RDD\nVediamo altre azioni che possiamo eseguire sugli RDD. Definiamo due nuovi RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.426",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eAltre azioni sul RDD\u003c/h2\u003e\n\u003cp\u003eVediamo altre azioni che possiamo eseguire sugli RDD. Definiamo due nuovi RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210426_1345441949",
+      "id": "20220829-183650_819565913",
+      "dateCreated": "2022-08-29 18:36:50.426",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndist1 \u003d sc.parallelize([1,2,3,4,5])\ndist2 \u003d sc.parallelize([5,6,7,8,9])\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:06:12.364",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048357414_649330600",
+      "id": "paragraph_1662048357414_649330600",
+      "dateCreated": "2022-09-01 16:05:57.415",
+      "dateStarted": "2022-09-01 16:06:12.397",
+      "dateFinished": "2022-09-01 16:06:12.893",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Union\nCi permette di unire due RDD in un unico RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.426",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eUnion\u003c/h3\u003e\n\u003cp\u003eCi permette di unire due RDD in un unico RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210426_2140501896",
+      "id": "20220829-183650_1611114520",
+      "dateCreated": "2022-08-29 18:36:50.426",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndist3 \u003d dist1.union(dist2)\ndist3.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:06:41.002",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[1, 2, 3, 4, 5, 5, 6, 7, 8, 9]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d7"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048380367_698729538",
+      "id": "paragraph_1662048380367_698729538",
+      "dateCreated": "2022-09-01 16:06:20.367",
+      "dateStarted": "2022-09-01 16:06:41.031",
+      "dateFinished": "2022-09-01 16:06:41.950",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Intersection\nCi permette di creare un nuovo RDD contenente solo gli elementi presenti in entrambi gli RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.427",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eIntersection\u003c/h3\u003e\n\u003cp\u003eCi permette di creare un nuovo RDD contenente solo gli elementi presenti in entrambi gli RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210427_879137895",
+      "id": "20220829-183650_428809179",
+      "dateCreated": "2022-08-29 18:36:50.427",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndist3 \u003d dist1.intersection(dist2)\ndist3.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:07:16.169",
+      "progress": 95,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[5]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d8"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048423787_1130516706",
+      "id": "paragraph_1662048423787_1130516706",
+      "dateCreated": "2022-09-01 16:07:03.787",
+      "dateStarted": "2022-09-01 16:07:16.191",
+      "dateFinished": "2022-09-01 16:07:22.334",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Subtract\nCi permette di creare un nuovo RDD con gli elementi del primo RDD non presenti anche nel secondo RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.427",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eSubtract\u003c/h3\u003e\n\u003cp\u003eCi permette di creare un nuovo RDD con gli elementi del primo RDD non presenti anche nel secondo RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210427_1402125660",
+      "id": "20220829-183650_60424039",
+      "dateCreated": "2022-08-29 18:36:50.427",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndist3 \u003d dist1.subtract(dist2)\ndist3.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:07:57.210",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[1, 2, 3, 4]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d9"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048460469_976313555",
+      "id": "paragraph_1662048460469_976313555",
+      "dateCreated": "2022-09-01 16:07:40.469",
+      "dateStarted": "2022-09-01 16:07:57.235",
+      "dateFinished": "2022-09-01 16:07:59.144",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Cartesian\nIl risultato è un nuovo RDD composto da tutte le combinazioni di 2 coppie di elementi presi dai due RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.427",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eCartesian\u003c/h3\u003e\n\u003cp\u003eIl risultato è un nuovo RDD composto da tutte le combinazioni di 2 coppie di elementi presi dai due RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210427_1916801778",
+      "id": "20220829-183650_109472724",
+      "dateCreated": "2022-08-29 18:36:50.427",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndist3 \u003d dist1.cartesian(dist2)\ndist3.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:08:32.840",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[(1, 5),\n (1, 6),\n (1, 7),\n (1, 8),\n (1, 9),\n (2, 5),\n (2, 6),\n (2, 7),\n (2, 8),\n (2, 9),\n (3, 5),\n (3, 6),\n (3, 7),\n (3, 8),\n (3, 9),\n (4, 5),\n (4, 6),\n (4, 7),\n (4, 8),\n (4, 9),\n (5, 5),\n (5, 6),\n (5, 7),\n (5, 8),\n (5, 9)]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d10"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048496078_749931963",
+      "id": "paragraph_1662048496078_749931963",
+      "dateCreated": "2022-09-01 16:08:16.078",
+      "dateStarted": "2022-09-01 16:08:32.867",
+      "dateFinished": "2022-09-01 16:08:35.066",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Map e Reduce\nLe applicazioni principali del RDD, come per qualsiasi altro tipo di oggetto distribuito, sono **Map** e **Reduce**.\n\u003cbr\u003e\u003cbr\u003e\n**Map** ci permette di applicare un\u0027operazione ad ogni elemento del RDD, passando al suo interno la funzione da applicare, facciamo un\u0027esempio con una funzione che calcola il quadrato di ogni valore all\u0027interno del RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.427",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eMap e Reduce\u003c/h2\u003e\n\u003cp\u003eLe applicazioni principali del RDD, come per qualsiasi altro tipo di oggetto distribuito, sono \u003cstrong\u003eMap\u003c/strong\u003e e \u003cstrong\u003eReduce\u003c/strong\u003e.\u003cbr/\u003e\u003cbr\u003e\u003cbr\u003e\u003cbr/\u003e\u003cstrong\u003eMap\u003c/strong\u003e ci permette di applicare un\u0026rsquo;operazione ad ogni elemento del RDD, passando al suo interno la funzione da applicare, facciamo un\u0026rsquo;esempio con una funzione che calcola il quadrato di ogni valore all\u0026rsquo;interno del RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210427_184525352",
+      "id": "20220829-183650_1526354698",
+      "dateCreated": "2022-08-29 18:36:50.427",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndef compute_pow(d):\n    return d*d\n\npowDist \u003d dataDist.map(compute_pow)\npowDist.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:11:07.333",
+      "progress": 16,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d11"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048624540_1619830272",
+      "id": "paragraph_1662048624540_1619830272",
+      "dateCreated": "2022-09-01 16:10:24.540",
+      "dateStarted": "2022-09-01 16:11:07.366",
+      "dateFinished": "2022-09-01 16:11:08.807",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nQuando la funzione da applicare non contiene più di un\u0027istruzione, possiamo anche definirla tramite una **funzione lambda**.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eQuando la funzione da applicare non contiene più di un\u0026rsquo;istruzione, possiamo anche definirla tramite una \u003cstrong\u003efunzione lambda\u003c/strong\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_933999918",
+      "id": "20220829-183650_2008916317",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\npowDist \u003d dataDist.map(lambda d: d*d)\npowDist.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:11:59.847",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d12"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048694781_1858030510",
+      "id": "paragraph_1662048694781_1858030510",
+      "dateCreated": "2022-09-01 16:11:34.781",
+      "dateStarted": "2022-09-01 16:11:59.872",
+      "dateFinished": "2022-09-01 16:12:00.555",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSpark mette a disposizione anche un metodo *.flatMap(func)*, che ritorna gli elementi del RDD all\u0027interno di un\u0027unica lista. Facciamo un\u0027esempio ! Creiamo un nuovo RDD con 3 brevi frasi come elementi, ora usiamo il metodo *map* per dividere le parole all\u0027interno di una frase.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSpark mette a disposizione anche un metodo \u003cem\u003e.flatMap(func)\u003c/em\u003e, che ritorna gli elementi del RDD all\u0026rsquo;interno di un\u0026rsquo;unica lista. Facciamo un\u0026rsquo;esempio ! Creiamo un nuovo RDD con 3 brevi frasi come elementi, ora usiamo il metodo \u003cem\u003emap\u003c/em\u003e per dividere le parole all\u0026rsquo;interno di una frase.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_374375197",
+      "id": "20220829-183650_1585566685",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ns \u003d [\"Questo corso spacca !\", \"Ho messo mi piace alla pagina di ProfessionAI\",\"Diventerò un grande datascientist\"]\nsDist \u003d sc.parallelize(s)\n\nlensDist \u003d sDist.map(lambda w: w.split())\nlensDist.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:13:49.042",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[[\u0027Questo\u0027, \u0027corso\u0027, \u0027spacca\u0027, \u0027!\u0027],\n [\u0027Ho\u0027, \u0027messo\u0027, \u0027mi\u0027, \u0027piace\u0027, \u0027alla\u0027, \u0027pagina\u0027, \u0027di\u0027, \u0027ProfessionAI\u0027],\n [\u0027Diventerò\u0027, \u0027un\u0027, \u0027grande\u0027, \u0027datascientist\u0027]]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d13"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048762352_2083895316",
+      "id": "paragraph_1662048762352_2083895316",
+      "dateCreated": "2022-09-01 16:12:42.352",
+      "dateStarted": "2022-09-01 16:13:49.077",
+      "dateFinished": "2022-09-01 16:13:49.751",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIl risulato è una lista con 3 elementi, quindi la stessa dimensione della lista iniziale, in cui ogni elemento della lista è a sua volta una lista con le parole che compongono la frase. Proviamo a fare la stessa cosa usando il metodo *flatMap*.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIl risulato è una lista con 3 elementi, quindi la stessa dimensione della lista iniziale, in cui ogni elemento della lista è a sua volta una lista con le parole che compongono la frase. Proviamo a fare la stessa cosa usando il metodo \u003cem\u003eflatMap\u003c/em\u003e.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_375859964",
+      "id": "20220829-183650_297034027",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nsDist \u003d sc.parallelize(s)\n\nwordsDist \u003d sDist.flatMap(lambda w: w.split())\nwordsDist.collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:14:58.869",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027Questo\u0027,\n \u0027corso\u0027,\n \u0027spacca\u0027,\n \u0027!\u0027,\n \u0027Ho\u0027,\n \u0027messo\u0027,\n \u0027mi\u0027,\n \u0027piace\u0027,\n \u0027alla\u0027,\n \u0027pagina\u0027,\n \u0027di\u0027,\n \u0027ProfessionAI\u0027,\n \u0027Diventerò\u0027,\n \u0027un\u0027,\n \u0027grande\u0027,\n \u0027datascientist\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d14"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048857667_984468166",
+      "id": "paragraph_1662048857667_984468166",
+      "dateCreated": "2022-09-01 16:14:17.667",
+      "dateStarted": "2022-09-01 16:14:58.901",
+      "dateFinished": "2022-09-01 16:14:59.569",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIl risultato questa volta è una lista con tutte le parole di tutte le frasi al suo interno, in sostanza flatMap esegue l\u0027appiattimento **(flattening)** dell\u0027ouput.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIl risultato questa volta è una lista con tutte le parole di tutte le frasi al suo interno, in sostanza flatMap esegue l\u0026rsquo;appiattimento \u003cstrong\u003e(flattening)\u003c/strong\u003e dell\u0026rsquo;ouput.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_1439353116",
+      "id": "20220829-183650_1247485888",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%md\nPassiamo a **Reduce**, che ci permette di aggregare gli elementi all\u0027interno del RDD in base ad una funzione definita da noi, ad esempio utilizziamo per sommare tutti gli elementi all\u0027interno del nostro RDD iniziale.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003ePassiamo a \u003cstrong\u003eReduce\u003c/strong\u003e, che ci permette di aggregare gli elementi all\u0026rsquo;interno del RDD in base ad una funzione definita da noi, ad esempio utilizziamo per sommare tutti gli elementi all\u0026rsquo;interno del nostro RDD iniziale.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_1428148404",
+      "id": "20220829-183650_225907641",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndef add(a,b):\n    return a+b\n\ndataSum \u003d dataDist.reduce(add)\nprint(dataSum)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:16:00.911",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "45\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d15"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048939455_1823142860",
+      "id": "paragraph_1662048939455_1823142860",
+      "dateCreated": "2022-09-01 16:15:39.455",
+      "dateStarted": "2022-09-01 16:16:00.940",
+      "dateFinished": "2022-09-01 16:16:01.597",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nAnche in questo caso possiamo utilizzare una lambda function.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.428",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eAnche in questo caso possiamo utilizzare una lambda function.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210428_1090213612",
+      "id": "20220829-183650_76832390",
+      "dateCreated": "2022-08-29 18:36:50.428",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\ndataSum \u003d dataDist.reduce(lambda a,b: a+b)\nprint(dataSum)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:16:31.541",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "45\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d16"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662048971213_1890359073",
+      "id": "paragraph_1662048971213_1890359073",
+      "dateCreated": "2022-09-01 16:16:11.213",
+      "dateStarted": "2022-09-01 16:16:31.570",
+      "dateFinished": "2022-09-01 16:16:32.298",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOppure la funzione *add(a,b)* del modulo *operator* di Python, il risultato sarà sempre lo stesso,",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOppure la funzione \u003cem\u003eadd(a,b)\u003c/em\u003e del modulo \u003cem\u003eoperator\u003c/em\u003e di Python, il risultato sarà sempre lo stesso,\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_1548321787",
+      "id": "20220829-183650_603768701",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfrom operator import add\n\ndataSum \u003d dataDist.reduce(add)\nprint(dataSum)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:17:00.573",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "45\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d17"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662049004190_1706051368",
+      "id": "paragraph_1662049004190_1706051368",
+      "dateCreated": "2022-09-01 16:16:44.190",
+      "dateStarted": "2022-09-01 16:17:00.600",
+      "dateFinished": "2022-09-01 16:17:01.205",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Trasformazioni sul RDD\nVediamo alcuni metodi utili che ci permettono di eseguire trasformazioni su di un RDD.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eTrasformazioni sul RDD\u003c/h2\u003e\n\u003cp\u003eVediamo alcuni metodi utili che ci permettono di eseguire trasformazioni su di un RDD.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_1275898911",
+      "id": "20220829-183650_2114527320",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%md\n### Filter\nIl metodo filter ci permette di filtrare gli elementi del RDD in base ad una funzione definita da noi, ad esempio creiamo un nuovo RDD con 10 parole e filtriamo quelle che hanno una lunghezza superiore a 15 caratteri.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eFilter\u003c/h3\u003e\n\u003cp\u003eIl metodo filter ci permette di filtrare gli elementi del RDD in base ad una funzione definita da noi, ad esempio creiamo un nuovo RDD con 10 parole e filtriamo quelle che hanno una lunghezza superiore a 15 caratteri.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_1120768948",
+      "id": "20220829-183650_1996850942",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nwords \u003d [\"Artificial Intelligence\",\"Machine Learning\", \"Reinforcement Learning\"\n         \"Deep Learning\",\"Computer Vision\", \"Natural Language Processing\",\n        \"Augmented Reality\", \"Blockchain\", \"Robotic\", \"Cyber Security\"]\n        \nwordsDist \u003d sc.parallelize(words)\n\nfilterDist \u003d wordsDist.filter(lambda w: len(w)\u003e15)\nfilterDist.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:26:00.529",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027Artificial Intelligence\u0027,\n \u0027Machine Learning\u0027,\n \u0027Reinforcement LearningDeep Learning\u0027,\n \u0027Natural Language Processing\u0027,\n \u0027Augmented Reality\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d18"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662049514812_1780661686",
+      "id": "paragraph_1662049514812_1780661686",
+      "dateCreated": "2022-09-01 16:25:14.812",
+      "dateStarted": "2022-09-01 16:26:00.558",
+      "dateFinished": "2022-09-01 16:26:01.448",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOppure filtriamo solo quelle che cominciamo per una vocale",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOppure filtriamo solo quelle che cominciamo per una vocale\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_554119173",
+      "id": "20220829-183650_2146762423",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nfilterDist \u003d wordsDist.filter(lambda w: (w[0].lower() in \"aeiou\"))\n\nfilterDist.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:27:16.587",
+      "progress": 8,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027Artificial Intelligence\u0027, \u0027Augmented Reality\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d19"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662049574251_487362183",
+      "id": "paragraph_1662049574251_487362183",
+      "dateCreated": "2022-09-01 16:26:14.251",
+      "dateStarted": "2022-09-01 16:27:16.610",
+      "dateFinished": "2022-09-01 16:27:17.247",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Distinct\nIl metodo *.dinstrinct()* ci permette di ridurre il contenuto del RDD ad elementi unici, rimuovendo eventuali doppi.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eDistinct\u003c/h3\u003e\n\u003cp\u003eIl metodo \u003cem\u003e.dinstrinct()\u003c/em\u003e ci permette di ridurre il contenuto del RDD ad elementi unici, rimuovendo eventuali doppi.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_1609150515",
+      "id": "20220829-183650_651645701",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nnamesDist \u003d sc.parallelize([\"Giuseppe\",\"Francesco\",\"Antonio\",\"Antonio\",\"Giuseppe\"])\n\nuniqueDist \u003d namesDist.distinct()\nuniqueDist.collect()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:28:11.453",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027Antonio\u0027, \u0027Francesco\u0027, \u0027Giuseppe\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d20"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662049658015_1642535387",
+      "id": "paragraph_1662049658015_1642535387",
+      "dateCreated": "2022-09-01 16:27:38.015",
+      "dateStarted": "2022-09-01 16:28:11.480",
+      "dateFinished": "2022-09-01 16:28:12.742",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Sample\nIl metodo *.sample(withReplacement, fraction)* ci permette di selezionare casualmente dal RDD degli elementi, questo metodo ha bisogno di due parametri:\n* **withReplacement**: va settato a True se un elemento può essere selezionato più di una volta, a False altrimenti.\n* **fraction**: probabilità che un elemento ha di essere selezionato, una probabilità di 0 ci ritornerà un rdd vuoto, una probabilità di 0.5 indica che ogni elemento ha il 50% di possibilità di essere selezionato, una probabilità di 1 ritornerà l\u0027RDD originale.",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eSample\u003c/h3\u003e\n\u003cp\u003eIl metodo \u003cem\u003e.sample(withReplacement, fraction)\u003c/em\u003e ci permette di selezionare casualmente dal RDD degli elementi, questo metodo ha bisogno di due parametri:\u003cbr/\u003e* \u003cstrong\u003ewithReplacement\u003c/strong\u003e: va settato a True se un elemento può essere selezionato più di una volta, a False altrimenti.\u003cbr/\u003e* \u003cstrong\u003efraction\u003c/strong\u003e: probabilità che un elemento ha di essere selezionato, una probabilità di 0 ci ritornerà un rdd vuoto, una probabilità di 0.5 indica che ogni elemento ha il 50% di possibilità di essere selezionato, una probabilità di 1 ritornerà l\u0026rsquo;RDD originale.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_445464673",
+      "id": "20220829-183650_1421578542",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    },
+    {
+      "text": "%pyspark\nwordsDist.sample(withReplacement\u003dFalse, fraction\u003d0.5).collect()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 16:29:54.188",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "[\u0027Machine Learning\u0027,\n \u0027Reinforcement LearningDeep Learning\u0027,\n \u0027Computer Vision\u0027,\n \u0027Natural Language Processing\u0027,\n \u0027Augmented Reality\u0027]"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://83e9ca79a37f:4040/jobs/job?id\u003d22"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662049744737_1389745524",
+      "id": "paragraph_1662049744737_1389745524",
+      "dateCreated": "2022-09-01 16:29:04.737",
+      "dateStarted": "2022-09-01 16:29:54.215",
+      "dateFinished": "2022-09-01 16:29:54.889",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## Approfondimenti e link utili\n* [Documentazione della classe RDD di PySpark](https://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.RDD)\n* [Per approfondire la differenza tra map e flatMap](https://github.com/vaquarkhan/Apache-Kafka-poc-and-notes/wiki/Difference-between-flatMap()-and-map()-on-an-RDD)\n* [Le funzioni Lambda di Python](https://www.meccanismocomplesso.org/lessons-lezioni-di-python-le-funzioni-lambda-functions/)",
+      "user": "anonymous",
+      "dateUpdated": "2022-08-29 18:36:50.429",
+      "progress": 0,
+      "config": {
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eApprofondimenti e link utili\u003c/h2\u003e\n\u003cul\u003e\n  \u003cli\u003e\u003ca href\u003d\"https://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.RDD\"\u003eDocumentazione della classe RDD di PySpark\u003c/a\u003e\u003c/li\u003e\n  \u003cli\u003e[Per approfondire la differenza tra map e flatMap](\u003ca href\u003d\"https://github.com/vaquarkhan/Apache-Kafka-poc-and-notes/wiki/Difference-between-flatMap()-and-map()-on-an-RDD\"\u003ehttps://github.com/vaquarkhan/Apache-Kafka-poc-and-notes/wiki/Difference-between-flatMap()-and-map()-on-an-RDD\u003c/a\u003e)\u003c/li\u003e\n  \u003cli\u003e\u003ca href\u003d\"https://www.meccanismocomplesso.org/lessons-lezioni-di-python-le-funzioni-lambda-functions/\"\u003eLe funzioni Lambda di Python\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1661798210429_1953385641",
+      "id": "20220829-183650_1864115977",
+      "dateCreated": "2022-08-29 18:36:50.429",
+      "status": "READY"
+    }
+  ],
+  "name": "RDD-basic",
+  "id": "2HDKG894A",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
