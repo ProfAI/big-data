@@ -9,4 +9,4 @@
 
 ### [3-sparksql](./3-sparksql/readme.md)
 
-### [4-esercitazione spark](./3-esercitazione-spark/readme.md)
+### [4-esercitazione spark](./4-esercitazione-spark/readme.md)
