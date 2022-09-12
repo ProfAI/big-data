@@ -1,0 +1,2432 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n## Analisi di 28 milioni recensioni di film\n\nIn questo notebook utilizzeremo Spark con il modulo SparkSQL ed un Dataframe per analizzare oltre 28 milioni di recensioni di film. Nello specifico le domande alla quale cerchermo di dare una risposta sono le seguenti:\n\n1. Quante recensioni ci sono esattamente nel dataset ?\n2. Qual è il numero di recensioni medie per utente ?\n3. Quale utente ha scritto più recensioni ? Quante sono le recensioni che ha scritto ? Qual è il suo voto medio ?\n4. Quali sono i 10 film che hanno ricevuto più recensioni ?\n5. Quali sono i 10 film con le recensioni più positive ?\n6. Quali sono i 10 film con le recensioni più negative ?\n7. Quali sono le 10 recensioni più recenti ?\n8. Qual è il film più visto per anno ?\n9. BONUS Aggiungi titolo e genere alla lista dei film più visti per anno e salva il risultato in un film csv",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:23:04.600",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eAnalisi di 28 milioni recensioni di film\u003c/h2\u003e\n\u003cp\u003eIn questo notebook utilizzeremo Spark con il modulo SparkSQL ed un Dataframe per analizzare oltre 28 milioni di recensioni di film. Nello specifico le domande alla quale cerchermo di dare una risposta sono le seguenti:\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eQuante recensioni ci sono esattamente nel dataset ?\u003c/li\u003e\n\u003cli\u003eQual è il numero di recensioni medie per utente ?\u003c/li\u003e\n\u003cli\u003eQuale utente ha scritto più recensioni ? Quante sono le recensioni che ha scritto ? Qual è il suo voto medio ?\u003c/li\u003e\n\u003cli\u003eQuali sono i 10 film che hanno ricevuto più recensioni ?\u003c/li\u003e\n\u003cli\u003eQuali sono i 10 film con le recensioni più positive ?\u003c/li\u003e\n\u003cli\u003eQuali sono i 10 film con le recensioni più negative ?\u003c/li\u003e\n\u003cli\u003eQuali sono le 10 recensioni più recenti ?\u003c/li\u003e\n\u003cli\u003eQual è il film più visto per anno ?\u003c/li\u003e\n\u003cli\u003eBONUS Aggiungi titolo e genere alla lista dei film più visti per anno e salva il risultato in un film csv\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058682463_905151111",
+      "id": "paragraph_1662058682463_905151111",
+      "dateCreated": "2022-09-01 18:58:02.463",
+      "dateStarted": "2022-09-03 14:23:04.602",
+      "dateFinished": "2022-09-03 14:23:07.027",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIl Dataset che utilizzeremo è il movielens dataset, possiamo scaricarlo da questo [link](http://files.grouplens.org/datasets/movielens/ml-latest.zip) \nDezippiamolo sotto la cartella ./data montata nel dockercompose\n\nVerifichiamo il contenuto della cartella\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-09 18:38:30.416",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIl Dataset che utilizzeremo è il movielens dataset, possiamo scaricarlo da questo \u003ca href\u003d\"http://files.grouplens.org/datasets/movielens/ml-latest.zip\"\u003elink\u003c/a\u003e\u003cbr /\u003e\nDezippiamolo sotto la cartella ./data montata nel dockercompose\u003c/p\u003e\n\u003cp\u003eVerifichiamo il contenuto della cartella\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662748538919_23132881",
+      "id": "paragraph_1662748538919_23132881",
+      "dateCreated": "2022-09-09 18:35:38.919",
+      "dateStarted": "2022-09-09 18:38:30.416",
+      "dateFinished": "2022-09-09 18:38:30.428",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%sh\nls /data/ml-latest",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-09 19:04:02.697",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "genome-scores.csv\ngenome-tags.csv\nlinks.csv\nmovies.csv\nratings.csv\nREADME.txt\ntags.csv\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058758779_200706610",
+      "id": "paragraph_1662058758779_200706610",
+      "dateCreated": "2022-09-01 18:59:18.780",
+      "dateStarted": "2022-09-09 19:04:02.712",
+      "dateFinished": "2022-09-09 19:04:02.729",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n### Inizializzazione di Spark\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 19:01:06.576",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch3\u003eInizializzazione di Spark\u003c/h3\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058828964_1080519155",
+      "id": "paragraph_1662058828964_1080519155",
+      "dateCreated": "2022-09-01 19:00:28.964",
+      "dateStarted": "2022-09-01 19:01:06.576",
+      "dateFinished": "2022-09-01 19:01:06.599",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nspark \u003d SparkSession.builder.appName(\u0027ml\u0027).getOrCreate()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 14:58:09.406",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058866573_349012701",
+      "id": "paragraph_1662058866573_349012701",
+      "dateCreated": "2022-09-01 19:01:06.573",
+      "dateStarted": "2022-09-12 14:58:09.418",
+      "dateFinished": "2022-09-12 14:58:09.643",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.types import *\ndata_schema \u003d [StructField(\u0027userID\u0027, StringType(), True),\n                StructField(\u0027movieID\u0027, StringType(), True),\n                StructField(\u0027rating\u0027, FloatType(), True),\n                StructField(\u0027timestamp\u0027, IntegerType(), True)]\n\nschema \u003d StructType(fields\u003ddata_schema)\n                \ndf \u003d spark.read.schema(schema).options(header\u003d\u0027True\u0027, inferSchema\u003d\u0027False\u0027).csv(\"/data/ml-latest/ratings.csv\")\ndf.printSchema()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 14:58:11.594",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- userID: string (nullable \u003d true)\n |-- movieID: string (nullable \u003d true)\n |-- rating: float (nullable \u003d true)\n |-- timestamp: integer (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058882043_302756111",
+      "id": "paragraph_1662058882043_302756111",
+      "dateCreated": "2022-09-01 19:01:22.043",
+      "dateStarted": "2022-09-12 14:58:11.609",
+      "dateFinished": "2022-09-12 14:58:11.882",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndf.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-09 19:05:39.011",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------+------+----------+\n|userID|movieID|rating| timestamp|\n+------+-------+------+----------+\n|     1|    307|   3.5|1256677221|\n|     1|    481|   3.5|1256677456|\n|     1|   1091|   1.5|1256677471|\n|     1|   1257|   4.5|1256677460|\n|     1|   1449|   4.5|1256677264|\n+------+-------+------+----------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d1"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662058953210_1865382877",
+      "id": "paragraph_1662058953210_1865382877",
+      "dateCreated": "2022-09-01 19:02:33.210",
+      "dateStarted": "2022-09-09 19:05:39.025",
+      "dateFinished": "2022-09-09 19:05:42.476",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nIl timestamp è un intero, in quanto è espresso in formato UNIX. Covertiamolo per avere un formato piu facile da leggere\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-01 19:04:59.770",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eIl timestamp è un intero, in quanto è espresso in formato UNIX. Covertiamolo per avere un formato piu facile da leggere\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662059035572_780249604",
+      "id": "paragraph_1662059035572_780249604",
+      "dateCreated": "2022-09-01 19:03:55.572",
+      "dateStarted": "2022-09-01 19:04:59.772",
+      "dateFinished": "2022-09-01 19:04:59.799",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import  from_unixtime , to_date\n\ndf \u003d df.withColumn(\u0027datetime\u0027, to_date(from_unixtime(df[\"timestamp\"])))",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:13:01.112",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662059012771_85790425",
+      "id": "paragraph_1662059012771_85790425",
+      "dateCreated": "2022-09-01 19:03:32.771",
+      "dateStarted": "2022-09-12 11:13:01.131",
+      "dateFinished": "2022-09-12 11:13:01.355",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import from_unixtime, to_utc_timestamp\n\ndf \u003d df.withColumn(\u0027timestamp\u0027, to_utc_timestamp(from_unixtime(df[\"timestamp\"]), \u0027Europe/Rome\u0027))\n\ndf.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:13:03.780",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------+------+-------------------+----------+\n|userID|movieID|rating|          timestamp|  datetime|\n+------+-------+------+-------------------+----------+\n|     1|    307|   3.5|2009-10-27 20:00:21|2009-10-27|\n|     1|    481|   3.5|2009-10-27 20:04:16|2009-10-27|\n|     1|   1091|   1.5|2009-10-27 20:04:31|2009-10-27|\n|     1|   1257|   4.5|2009-10-27 20:04:20|2009-10-27|\n|     1|   1449|   4.5|2009-10-27 20:01:04|2009-10-27|\n+------+-------+------+-------------------+----------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d4"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662059105466_1748592934",
+      "id": "paragraph_1662059105466_1748592934",
+      "dateCreated": "2022-09-01 19:05:05.466",
+      "dateStarted": "2022-09-12 11:13:03.798",
+      "dateFinished": "2022-09-12 11:13:04.382",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 1. Quante recensioni ci sono nel dataset?\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:45:37.604",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e1. Quante recensioni ci sono nel dataset?\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216310107_955272851",
+      "id": "paragraph_1662216310107_955272851",
+      "dateCreated": "2022-09-03 14:45:10.108",
+      "dateStarted": "2022-09-03 14:45:37.607",
+      "dateFinished": "2022-09-03 14:45:37.901",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ntotal_review \u003d df.count()\nprint(total_review)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-09 19:10:25.886",
+      "progress": 85,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "27753444\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662059336366_2131835513",
+      "id": "paragraph_1662059336366_2131835513",
+      "dateCreated": "2022-09-01 19:08:56.366",
+      "dateStarted": "2022-09-09 19:10:25.903",
+      "dateFinished": "2022-09-09 19:10:42.356",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 2. Qual\u0027è il numero di recensioni medie per utente?\n\nQuante recensioni ha scritto in media un\u0027utente ? Per saperlo dobbiamo innanziatutto conoscere il numero di recensori unici all\u0027interno del dataset, possiamo farlo utilizzando la funzione countDisctinct(col) che ci restituierà un dataframe con una sola riga ed una sola colonna, che conterrà proprio tale numero",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:47:19.112",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e2. Qual\u0026rsquo;è il numero di recensioni medie per utente?\u003c/h2\u003e\n\u003cp\u003eQuante recensioni ha scritto in media un\u0026rsquo;utente ? Per saperlo dobbiamo innanziatutto conoscere il numero di recensori unici all\u0026rsquo;interno del dataset, possiamo farlo utilizzando la funzione countDisctinct(col) che ci restituierà un dataframe con una sola riga ed una sola colonna, che conterrà proprio tale numero\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216366528_667931309",
+      "id": "paragraph_1662216366528_667931309",
+      "dateCreated": "2022-09-03 14:46:06.528",
+      "dateStarted": "2022-09-03 14:47:19.113",
+      "dateFinished": "2022-09-03 14:47:19.135",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import col, countDistinct\n\ntotal_unique_reviewers \u003d df.agg(countDistinct(\"userID\").alias(\"count_reviewers\"))\ntotal_unique_reviewers.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:50:57.245",
+      "progress": 99,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------------+\n|count_reviewers|\n+---------------+\n|         283228|\n+---------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d1"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216348394_682406831",
+      "id": "paragraph_1662216348394_682406831",
+      "dateCreated": "2022-09-03 14:45:48.394",
+      "dateStarted": "2022-09-03 14:50:57.262",
+      "dateFinished": "2022-09-03 14:52:59.088",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nPer ottere il numero di revisori unici dal dataframe è possibile utilizzare .head()\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:54:47.212",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003ePer ottere il numero di revisori unici dal dataframe è possibile utilizzare .head()\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216837198_1983875263",
+      "id": "paragraph_1662216837198_1983875263",
+      "dateCreated": "2022-09-03 14:53:57.206",
+      "dateStarted": "2022-09-03 14:54:47.221",
+      "dateFinished": "2022-09-03 14:54:47.440",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nmean_reviews \u003dtotal_review/total_unique_reviewers.head()[\"count_reviewers\"]\nprint(meam_reviews)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 14:57:30.523",
+      "progress": 99,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "97.98976089934611\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216451475_556821051",
+      "id": "paragraph_1662216451475_556821051",
+      "dateCreated": "2022-09-03 14:47:31.475",
+      "dateStarted": "2022-09-03 14:57:30.557",
+      "dateFinished": "2022-09-03 14:57:51.927",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 3. Quale utente ha scritto più recensioni ? Quante sono le recensioni che ha scritto ? Qual è il suo voto medio ?\n\nPer trovare l\u0027utente che ha scritto più recensioni ci basta raggruppare il Dataframe per gli user id, contare il numero di recensioni per utente e poi ordinare in base a questo valore",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:00:50.889",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e3. Quale utente ha scritto più recensioni ? Quante sono le recensioni che ha scritto ? Qual è il suo voto medio ?\u003c/h2\u003e\n\u003cp\u003ePer trovare l\u0026rsquo;utente che ha scritto più recensioni ci basta raggruppare il Dataframe per gli user id, contare il numero di recensioni per utente e poi ordinare in base a questo valore\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662216959434_1095258833",
+      "id": "paragraph_1662216959434_1095258833",
+      "dateCreated": "2022-09-03 14:55:59.435",
+      "dateStarted": "2022-09-03 15:00:50.894",
+      "dateFinished": "2022-09-03 15:00:50.929",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndf.groupBy(\"userID\").count().orderBy(\"count\", ascending\u003dFalse).show(5)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:21:03.057",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-----+\n|userID|count|\n+------+-----+\n|123100|23715|\n|117490| 9279|\n|134596| 8381|\n|212343| 7884|\n|242683| 7515|\n+------+-----+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d0"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662217223555_1311345418",
+      "id": "paragraph_1662217223555_1311345418",
+      "dateCreated": "2022-09-03 15:00:23.558",
+      "dateStarted": "2022-09-03 15:21:13.018",
+      "dateFinished": "2022-09-03 15:22:33.166",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndf.filter(\"userID \u003d\u003d \u0027123100\u0027\").agg({\"rating\":\"mean\"}).show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:22:44.170",
+      "progress": 92,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+\n|       avg(rating)|\n+------------------+\n|3.1306346194391734|\n+------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d1"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662217261028_1566253001",
+      "id": "paragraph_1662217261028_1566253001",
+      "dateCreated": "2022-09-03 15:01:01.028",
+      "dateStarted": "2022-09-03 15:22:44.236",
+      "dateFinished": "2022-09-03 15:23:01.594",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 4. Quali sono i 10 film che hanno ricevuto più recensioni ?\n\nE\u0027 necessario raggruppare per film e ordinare in base al numero di recensioni per film",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:24:14.924",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e4. Quali sono i 10 film che hanno ricevuto più recensioni ?\u003c/h2\u003e\n\u003cp\u003eE\u0026rsquo; necessario raggruppare per film e ordinare in base al numero di recensioni per film\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662218564229_1715066820",
+      "id": "paragraph_1662218564229_1715066820",
+      "dateCreated": "2022-09-03 15:22:44.236",
+      "dateStarted": "2022-09-03 15:24:14.934",
+      "dateFinished": "2022-09-03 15:24:14.975",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMovies \u003d df.groupBy(\"movieID\")",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:09:00.051",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662218611027_1225078670",
+      "id": "paragraph_1662218611027_1225078670",
+      "dateCreated": "2022-09-03 15:23:31.028",
+      "dateStarted": "2022-09-05 19:09:00.068",
+      "dateFinished": "2022-09-05 19:09:00.291",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMovies.count().orderBy(\"count\", ascending\u003dFalse).show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:40:30.464",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+-----+\n|movieID|count|\n+-------+-----+\n|    318|97999|\n|    356|97040|\n|    296|92406|\n|    593|87899|\n|   2571|84545|\n|    260|81815|\n|    480|76451|\n|    527|71516|\n|    110|68803|\n|      1|68469|\n+-------+-----+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d0"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662218712664_250726772",
+      "id": "paragraph_1662218712664_250726772",
+      "dateCreated": "2022-09-03 15:25:12.664",
+      "dateStarted": "2022-09-03 15:40:30.493",
+      "dateFinished": "2022-09-03 15:41:31.591",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 5. Quali sono i 10 film con le recensioni più positive ?\nDal dataframe precedente calcoliamo la media delle valutazioni e il numero di volte che è stato valutato\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:46:05.976",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e5. Quali sono i 10 film con le recensioni più positive ?\u003c/h2\u003e\n\u003cp\u003eDal dataframe precedente calcoliamo la media delle valutazioni e il numero di volte che è stato valutato\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662219725814_134503977",
+      "id": "paragraph_1662219725814_134503977",
+      "dateCreated": "2022-09-03 15:42:05.819",
+      "dateStarted": "2022-09-03 15:46:05.980",
+      "dateFinished": "2022-09-03 15:46:06.021",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import avg, count\n\ndfMoviesAvg \u003d dfMovies.agg(avg(\"rating\").alias(\"avg_rating\"), count(\"movieID\").alias(\"count_rating\"))\ndfMoviesAvg.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:09:03.200",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+------------+\n|movieID|        avg_rating|count_rating|\n+-------+------------------+------------+\n|    296| 4.173971387139363|       92406|\n|   1090|3.9017529880478086|       18825|\n|  88140| 3.521785209609044|        8492|\n| 115713| 3.955001285677552|       11667|\n| 119655|2.7612293144208038|         423|\n+-------+------------------+------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d0"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662219153810_2088976853",
+      "id": "paragraph_1662219153810_2088976853",
+      "dateCreated": "2022-09-03 15:32:33.823",
+      "dateStarted": "2022-09-05 19:09:03.218",
+      "dateFinished": "2022-09-05 19:09:25.433",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nFiltriamo per i film che hanno ricevuto almeno 100 recensioni\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:48:54.699",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eFiltriamo per i film che hanno ricevuto almeno 100 recensioni\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662220092185_633001601",
+      "id": "paragraph_1662220092185_633001601",
+      "dateCreated": "2022-09-03 15:48:12.186",
+      "dateStarted": "2022-09-03 15:48:54.711",
+      "dateFinished": "2022-09-03 15:48:54.739",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMoviesMostRated \u003d dfMoviesAvg.filter(\"count_rating \u003e 100\")",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:09:28.937",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662219976947_2060740613",
+      "id": "paragraph_1662219976947_2060740613",
+      "dateCreated": "2022-09-03 15:46:16.947",
+      "dateStarted": "2022-09-05 19:09:28.951",
+      "dateFinished": "2022-09-05 19:09:29.478",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOrdiniamo sulla base della valutazione media\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-03 15:49:26.410",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOrdiniamo sulla base della valutazione media\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662220144140_335725085",
+      "id": "paragraph_1662220144140_335725085",
+      "dateCreated": "2022-09-03 15:49:04.141",
+      "dateStarted": "2022-09-03 15:49:26.407",
+      "dateFinished": "2022-09-03 15:49:26.443",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMoviesTopRated \u003d dfMoviesMostRated.orderBy(\"avg_rating\", ascending\u003dFalse)\ndfMoviesTopRated.show(10)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:09:33.384",
+      "progress": 92,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+------------+\n|movieID|        avg_rating|count_rating|\n+-------+------------------+------------+\n| 171011|4.4865181711606095|         853|\n| 159817| 4.458092485549133|        1384|\n|    318| 4.424188001918387|       97999|\n| 170705| 4.399898373983739|         984|\n| 174053| 4.350558659217877|        1074|\n| 171495| 4.343949044585988|         157|\n| 172591| 4.339667458432304|         421|\n|    858| 4.332892749244713|       60904|\n|     50| 4.291958829205532|       62180|\n| 176601| 4.263888888888889|         180|\n+-------+------------------+------------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d1"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662220166402_633238785",
+      "id": "paragraph_1662220166402_633238785",
+      "dateCreated": "2022-09-03 15:49:26.403",
+      "dateStarted": "2022-09-05 19:09:33.399",
+      "dateFinished": "2022-09-05 19:09:51.789",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 6. Quali sono i 10 film con le recensioni più negative?\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:14:13.647",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e6. Quali sono i 10 film con le recensioni più negative?\u003c/h2\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662405107354_873120043",
+      "id": "paragraph_1662405107354_873120043",
+      "dateCreated": "2022-09-05 19:11:47.355",
+      "dateStarted": "2022-09-05 19:14:13.647",
+      "dateFinished": "2022-09-05 19:14:13.655",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMoviesTopRated \u003d dfMoviesMostRated.orderBy(\"avg_rating\", ascending\u003dTrue)\ndfMoviesTopRated.show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:12:13.017",
+      "progress": 86,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+------------+\n|movieID|        avg_rating|count_rating|\n+-------+------------------+------------+\n|   8859|0.8739495798319328|         238|\n|   6483|1.0138592750533049|         469|\n|   4775| 1.141025641025641|         741|\n|   1826|1.2038288288288288|         444|\n|   6587|1.2055555555555555|         810|\n|  31698|1.2441176470588236|         680|\n|   5739|1.2612359550561798|         178|\n|  61348|1.2672849915682969|         593|\n|   5738|1.3549382716049383|         162|\n|   3574|1.3580645161290323|         155|\n+-------+------------------+------------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d2"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662220180049_1374894850",
+      "id": "paragraph_1662220180049_1374894850",
+      "dateCreated": "2022-09-03 15:49:40.049",
+      "dateStarted": "2022-09-05 19:12:13.031",
+      "dateFinished": "2022-09-05 19:12:43.809",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 7. Quali sono le 10 recensioni più recenti ?\n\nQuesto è semplice, basta ordinare per il campo timestamp e prendere i primi 10 elementi",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:18:43.414",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e7. Quali sono le 10 recensioni più recenti ?\u003c/h2\u003e\n\u003cp\u003eQuesto è semplice, basta ordinare per il campo timestamp e prendere i primi 10 elementi\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662405133030_1778520074",
+      "id": "paragraph_1662405133030_1778520074",
+      "dateCreated": "2022-09-05 19:12:13.030",
+      "dateStarted": "2022-09-05 19:18:43.414",
+      "dateFinished": "2022-09-05 19:18:43.432",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndf.orderBy(\"timestamp\", ascending\u003dFalse).show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-05 19:18:45.989",
+      "progress": 83,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------+------+----------+\n|userID|movieID|rating| timestamp|\n+------+-------+------+----------+\n| 82922| 167780|   4.0|1537945149|\n| 82922|  53519|   4.0|1537945130|\n|280481|    494|   3.0|1537945127|\n|280481|   2355|   3.0|1537945123|\n|280481|   2294|   2.0|1537945121|\n|280481| 176101|   3.5|1537945110|\n|280481|  64614|   3.0|1537945102|\n| 82922| 165831|   4.0|1537945089|\n|280481|   1079|   2.5|1537945086|\n| 82922|  52281|   4.0|1537945085|\n+------+-------+------+----------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d3"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662405245415_2016126313",
+      "id": "paragraph_1662405245415_2016126313",
+      "dateCreated": "2022-09-05 19:14:05.416",
+      "dateStarted": "2022-09-05 19:18:46.003",
+      "dateFinished": "2022-09-05 19:18:56.688",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## 8. Qual è il film più visto per anno ?\n\nQuesta domanda è complessa, in quanto nel dataset abbiamo i film che sono stati recensiti e non abbiamo un dato sul numero di persone che hanno visto il film. Facendo un\u0027ipotesi possiamo dire che l\u00271% delle persone che hanno visto un film lo recensisce, quindi abbiamo ridotto il problema a trovare il film che ha avuto più valutazioni per anno.\n\nPer fare questo creiamo una nuova colonna contenente solo l\u0027anno del film",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:08:30.462",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003e8. Qual è il film più visto per anno ?\u003c/h2\u003e\n\u003cp\u003eQuesta domanda è complessa, in quanto nel dataset abbiamo i film che sono stati recensiti e non abbiamo un dato sul numero di persone che hanno visto il film. Facendo un\u0026rsquo;ipotesi possiamo dire che l\u0026rsquo;1% delle persone che hanno visto un film lo recensisce, quindi abbiamo ridotto il problema a trovare il film che ha avuto più valutazioni per anno.\u003c/p\u003e\n\u003cp\u003ePer fare questo creiamo una nuova colonna contenente solo l\u0026rsquo;anno del film\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662405526002_499657401",
+      "id": "paragraph_1662405526002_499657401",
+      "dateCreated": "2022-09-05 19:18:46.002",
+      "dateStarted": "2022-09-12 11:08:30.463",
+      "dateFinished": "2022-09-12 11:08:32.789",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\n\nfrom pyspark.sql.functions import year\n\ndfWithYear \u003d df.withColumn(\"year\", year(df[\u0027datetime\u0027])).drop(\"datetime\")\ndfWithYear.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:13:14.073",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+-------+------+-------------------+----+\n|userID|movieID|rating|          timestamp|year|\n+------+-------+------+-------------------+----+\n|     1|    307|   3.5|2009-10-27 20:00:21|2009|\n|     1|    481|   3.5|2009-10-27 20:04:16|2009|\n|     1|   1091|   1.5|2009-10-27 20:04:31|2009|\n|     1|   1257|   4.5|2009-10-27 20:04:20|2009|\n|     1|   1449|   4.5|2009-10-27 20:01:04|2009|\n+------+-------+------+-------------------+----+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d5"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662488904090_600529147",
+      "id": "paragraph_1662488904090_600529147",
+      "dateCreated": "2022-09-06 18:28:24.091",
+      "dateStarted": "2022-09-12 11:13:14.091",
+      "dateFinished": "2022-09-12 11:13:14.722",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nraggruppiamo il dataframe per anno e per id del film\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:33:15.860",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eraggruppiamo il dataframe per anno e per id del film\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489165872_1478918472",
+      "id": "paragraph_1662489165872_1478918472",
+      "dateCreated": "2022-09-06 18:32:45.872",
+      "dateStarted": "2022-09-06 18:33:15.861",
+      "dateFinished": "2022-09-06 18:33:15.871",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import avg, count\n\ndfMovieYear \u003d dfWithYear.groupBy(\"year\",\"movieID\").agg(count(\"rating\").alias(\"count_rating\"))\ndfMovieYear.show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:13:41.365",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----+-------+------------+\n|year|movieID|count_rating|\n+----+-------+------------+\n|2005|    255|          43|\n|2005|   1917|        3460|\n|2005|   3793|        4089|\n|2005|   5064|         788|\n|2005|   6966|         257|\n+----+-------+------------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d6"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662488924339_861337839",
+      "id": "paragraph_1662488924339_861337839",
+      "dateCreated": "2022-09-06 18:28:44.339",
+      "dateStarted": "2022-09-12 11:13:41.380",
+      "dateFinished": "2022-09-12 11:14:12.098",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nDobbiamo ora raggruppare i film per anno e scoprire il piu recensito. Per questo utilizziamo le funzioni **window**\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:43:11.572",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eDobbiamo ora raggruppare i film per anno e scoprire il piu recensito. Per questo utilizziamo le funzioni \u003cstrong\u003ewindow\u003c/strong\u003e\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489580868_2117684716",
+      "id": "paragraph_1662489580868_2117684716",
+      "dateCreated": "2022-09-06 18:39:40.868",
+      "dateStarted": "2022-09-06 18:43:11.590",
+      "dateFinished": "2022-09-06 18:43:11.601",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import Window\nfrom pyspark.sql.functions import max, col\n\nwindow \u003d Window.partitionBy(\"year\")\n\ndfMostRatedYear \u003d dfMovieYear.withColumn(\"max\", max(\"count_rating\").over(window)).where(col(\"count_rating\")\u003d\u003dcol(\"max\")).drop(\"max\")\ndfMostRatedYear.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:14:38.978",
+      "progress": 26,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----+-------+------------+\n|year|movieID|count_rating|\n+----+-------+------------+\n|2003|   5952|        3684|\n|2007|   2571|        3409|\n|2018|    318|        4311|\n|2015|   2571|       12776|\n|2006|   7153|        4001|\n|2013|    318|        2714|\n|1997|    780|       11350|\n|2014|    318|        2672|\n|2004|   7153|        3697|\n|1996|    592|       25760|\n|1998|   1721|        2399|\n|2012|  79132|        2422|\n|2009|  58559|        3720|\n|2016|    318|        8976|\n|1995|     47|           1|\n|1995|     21|           1|\n|1995|   1176|           1|\n|1995|   1079|           1|\n|2001|   1210|        4517|\n|2005|   5952|        6228|\n+----+-------+------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d7"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d8"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d9"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d11"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489478824_1552550747",
+      "id": "paragraph_1662489478824_1552550747",
+      "dateCreated": "2022-09-06 18:37:58.824",
+      "dateStarted": "2022-09-12 11:14:38.995",
+      "dateFinished": "2022-09-12 11:15:16.399",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nOrdiniamo il dataframe per anno\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:45:07.759",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eOrdiniamo il dataframe per anno\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489876769_1124381319",
+      "id": "paragraph_1662489876769_1124381319",
+      "dateCreated": "2022-09-06 18:44:36.770",
+      "dateStarted": "2022-09-06 18:45:07.759",
+      "dateFinished": "2022-09-06 18:45:07.814",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMostRatedYear \u003d dfMostRatedYear.orderBy(\"year\", ascending\u003dFalse)\ndfMostRatedYear.show()",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:14:44.511",
+      "progress": 91,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----+-------+------------+\n|year|movieID|count_rating|\n+----+-------+------------+\n|2018|    318|        4311|\n|2017|    318|        7873|\n|2016|    318|        8976|\n|2015|   2571|       12776|\n|2014|    318|        2672|\n|2013|    318|        2714|\n|2012|  79132|        2422|\n|2011|  79132|        3280|\n|2010|  72998|        3882|\n|2009|  58559|        3720|\n|2008|   2571|        4207|\n|2007|   2571|        3409|\n|2006|   7153|        4001|\n|2005|   5952|        6228|\n|2004|   7153|        3697|\n|2003|   5952|        3684|\n|2002|   4993|        3551|\n|2001|   1210|        4517|\n|2000|   1210|        7452|\n|1999|   2396|        4621|\n+----+-------+------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d12"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489811220_871822499",
+      "id": "paragraph_1662489811220_871822499",
+      "dateCreated": "2022-09-06 18:43:31.221",
+      "dateStarted": "2022-09-12 11:14:44.544",
+      "dateFinished": "2022-09-12 11:15:47.303",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nL\u0027ipotesi fatta è che l\u00271% degli spettatori recensisce il film, quindi per calcolare il numero di persone che hanno visto il film possiamo moltiplicare per 100 il numero delle recensioni\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:08:50.667",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eL\u0026rsquo;ipotesi fatta è che l\u0026rsquo;1% degli spettatori recensisce il film, quindi per calcolare il numero di persone che hanno visto il film possiamo moltiplicare per 100 il numero delle recensioni\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489869542_1260136447",
+      "id": "paragraph_1662489869542_1260136447",
+      "dateCreated": "2022-09-06 18:44:29.542",
+      "dateStarted": "2022-09-12 11:08:50.667",
+      "dateFinished": "2022-09-12 11:08:50.676",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\n\ndfMostViewedYear \u003d dfMostRatedYear.withColumn(\"total_viewers\",dfMostRatedYear[\"count_rating\"]*100).drop(\"count_rating\")\ndfMostViewedYear.show(27)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:14:48.037",
+      "progress": 91,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----+-------+-------------+\n|year|movieID|total_viewers|\n+----+-------+-------------+\n|2018|    318|       431100|\n|2017|    318|       787300|\n|2016|    318|       897600|\n|2015|   2571|      1277600|\n|2014|    318|       267200|\n|2013|    318|       271400|\n|2012|  79132|       242200|\n|2011|  79132|       328000|\n|2010|  72998|       388200|\n|2009|  58559|       372000|\n|2008|   2571|       420700|\n|2007|   2571|       340900|\n|2006|   7153|       400100|\n|2005|   5952|       622800|\n|2004|   7153|       369700|\n|2003|   5952|       368400|\n|2002|   4993|       355100|\n|2001|   1210|       451700|\n|2000|   1210|       745200|\n|1999|   2396|       462100|\n|1998|   1721|       239900|\n|1997|    780|      1135000|\n|1996|    592|      2576000|\n|1995|     21|          100|\n|1995|   1176|          100|\n|1995|     47|          100|\n|1995|   1079|          100|\n+----+-------+-------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d13"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662489990437_749621452",
+      "id": "paragraph_1662489990437_749621452",
+      "dateCreated": "2022-09-06 18:46:30.438",
+      "dateStarted": "2022-09-12 11:15:16.490",
+      "dateFinished": "2022-09-12 11:16:16.144",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n## BONUS Aggiungiamo titolo e genere alla lista dei film più visti per anno\nAbbiamo già detto che all\u0027interno del file movies.csv si trovano titolo e genere dei film. Carichiamo tale film all\u0027interno di un nuovo Dataframe.\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:50:49.434",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch2\u003eBONUS Aggiungiamo titolo e genere alla lista dei film più visti per anno\u003c/h2\u003e\n\u003cp\u003eAbbiamo già detto che all\u0026rsquo;interno del file movies.csv si trovano titolo e genere dei film. Carichiamo tale film all\u0026rsquo;interno di un nuovo Dataframe.\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490236268_555203616",
+      "id": "paragraph_1662490236268_555203616",
+      "dateCreated": "2022-09-06 18:50:36.268",
+      "dateStarted": "2022-09-06 18:50:49.434",
+      "dateFinished": "2022-09-06 18:50:49.444",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndf_desc \u003d spark.read.csv(\"/data/ml-latest/movies.csv\", header\u003dTrue, inferSchema\u003dTrue)\ndf_desc.show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:11:29.843",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+--------------------+--------------------+\n|movieId|               title|              genres|\n+-------+--------------------+--------------------+\n|      1|    Toy Story (1995)|Adventure|Animati...|\n|      2|      Jumanji (1995)|Adventure|Childre...|\n|      3|Grumpier Old Men ...|      Comedy|Romance|\n|      4|Waiting to Exhale...|Comedy|Drama|Romance|\n|      5|Father of the Bri...|              Comedy|\n|      6|         Heat (1995)|Action|Crime|Thri...|\n|      7|      Sabrina (1995)|      Comedy|Romance|\n|      8| Tom and Huck (1995)|  Adventure|Children|\n|      9| Sudden Death (1995)|              Action|\n|     10|    GoldenEye (1995)|Action|Adventure|...|\n+-------+--------------------+--------------------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d0"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d2"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490016929_347706390",
+      "id": "paragraph_1662490016929_347706390",
+      "dateCreated": "2022-09-06 18:46:56.929",
+      "dateStarted": "2022-09-12 11:11:29.863",
+      "dateFinished": "2022-09-12 11:11:37.991",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nper associare i tioli ai film piu visti basta fare la join sulla colonna movieid",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:52:51.958",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eper associare i tioli ai film piu visti basta fare la join sulla colonna movieid\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490325115_1837877044",
+      "id": "paragraph_1662490325115_1837877044",
+      "dateCreated": "2022-09-06 18:52:05.115",
+      "dateStarted": "2022-09-06 18:52:51.959",
+      "dateFinished": "2022-09-06 18:52:51.965",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMostViewedYear \u003d dfMostViewedYear.join(df_desc, [\"movieId\"])\n\n# impostando il secondo parametro del metodo .show() a False\n# possiamo visualizzare tutto il Dataframe in ampiezza\n\ndfMostViewedYear.show(27, False)",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:16:23.052",
+      "progress": 19,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+----+-------------+------------------------------------------------------------------+-----------------------------------------------+\n|movieID|year|total_viewers|title                                                             |genres                                         |\n+-------+----+-------------+------------------------------------------------------------------+-----------------------------------------------+\n|5952   |2003|368400       |Lord of the Rings: The Two Towers, The (2002)                     |Adventure|Fantasy                              |\n|2571   |2007|340900       |Matrix, The (1999)                                                |Action|Sci-Fi|Thriller                         |\n|318    |2018|431100       |Shawshank Redemption, The (1994)                                  |Crime|Drama                                    |\n|2571   |2015|1277600      |Matrix, The (1999)                                                |Action|Sci-Fi|Thriller                         |\n|7153   |2006|400100       |Lord of the Rings: The Return of the King, The (2003)             |Action|Adventure|Drama|Fantasy                 |\n|318    |2013|271400       |Shawshank Redemption, The (1994)                                  |Crime|Drama                                    |\n|780    |1997|1135000      |Independence Day (a.k.a. ID4) (1996)                              |Action|Adventure|Sci-Fi|Thriller               |\n|318    |2014|267200       |Shawshank Redemption, The (1994)                                  |Crime|Drama                                    |\n|7153   |2004|369700       |Lord of the Rings: The Return of the King, The (2003)             |Action|Adventure|Drama|Fantasy                 |\n|592    |1996|2576000      |Batman (1989)                                                     |Action|Crime|Thriller                          |\n|1721   |1998|239900       |Titanic (1997)                                                    |Drama|Romance                                  |\n|79132  |2012|242200       |Inception (2010)                                                  |Action|Crime|Drama|Mystery|Sci-Fi|Thriller|IMAX|\n|58559  |2009|372000       |Dark Knight, The (2008)                                           |Action|Crime|Drama|IMAX                        |\n|318    |2016|897600       |Shawshank Redemption, The (1994)                                  |Crime|Drama                                    |\n|1176   |1995|100          |Double Life of Veronique, The (Double Vie de Véronique, La) (1991)|Drama|Fantasy|Romance                          |\n|47     |1995|100          |Seven (a.k.a. Se7en) (1995)                                       |Mystery|Thriller                               |\n|21     |1995|100          |Get Shorty (1995)                                                 |Comedy|Crime|Thriller                          |\n|1079   |1995|100          |Fish Called Wanda, A (1988)                                       |Comedy|Crime                                   |\n|1210   |2001|451700       |Star Wars: Episode VI - Return of the Jedi (1983)                 |Action|Adventure|Sci-Fi                        |\n|5952   |2005|622800       |Lord of the Rings: The Two Towers, The (2002)                     |Adventure|Fantasy                              |\n|1210   |2000|745200       |Star Wars: Episode VI - Return of the Jedi (1983)                 |Action|Adventure|Sci-Fi                        |\n|72998  |2010|388200       |Avatar (2009)                                                     |Action|Adventure|Sci-Fi|IMAX                   |\n|79132  |2011|328000       |Inception (2010)                                                  |Action|Crime|Drama|Mystery|Sci-Fi|Thriller|IMAX|\n|2571   |2008|420700       |Matrix, The (1999)                                                |Action|Sci-Fi|Thriller                         |\n|318    |2017|787300       |Shawshank Redemption, The (1994)                                  |Crime|Drama                                    |\n|2396   |1999|462100       |Shakespeare in Love (1998)                                        |Comedy|Drama|Romance                           |\n|4993   |2002|355100       |Lord of the Rings: The Fellowship of the Ring, The (2001)         |Adventure|Fantasy                              |\n+-------+----+-------------+------------------------------------------------------------------+-----------------------------------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d15"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d16"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d17"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d18"
+            },
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d19"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490284399_1555764699",
+      "id": "paragraph_1662490284399_1555764699",
+      "dateCreated": "2022-09-06 18:51:24.399",
+      "dateStarted": "2022-09-12 11:16:23.069",
+      "dateFinished": "2022-09-12 11:16:50.849",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nSalviamo il dataframe in formato csv\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 11:10:19.017",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eSalviamo il dataframe in formato csv\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662980993966_1887466331",
+      "id": "paragraph_1662980993966_1887466331",
+      "dateCreated": "2022-09-12 11:09:53.966",
+      "dateStarted": "2022-09-12 11:10:19.017",
+      "dateFinished": "2022-09-12 11:10:19.025",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%pyspark\ndfMostViewedYear.write.csv(\"/data/top_movie_by_year\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 12:00:33.513",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://6764f390529f:4040/jobs/job?id\u003d24"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662981020895_505973351",
+      "id": "paragraph_1662981020895_505973351",
+      "dateCreated": "2022-09-12 11:10:20.895",
+      "dateStarted": "2022-09-12 12:00:33.532",
+      "dateFinished": "2022-09-12 12:01:04.170",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nData la natura distribuita di spark, le righe non verranno salvate in un unico file. E\u0027 necessario quindi unire tutte le righe create mediante il comando cat",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 12:03:00.778",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eData la natura distribuita di spark, le righe non verranno salvate in un unico file. E\u0026rsquo; necessario quindi unire tutte le righe create mediante il comando cat\u003c/p\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662984110070_923556533",
+      "id": "paragraph_1662984110070_923556533",
+      "dateCreated": "2022-09-12 12:01:50.070",
+      "dateStarted": "2022-09-12 12:03:00.779",
+      "dateFinished": "2022-09-12 12:03:00.790",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%sh\ncat /data/top_movie_by_year/part* \u003e /data/top_movie_by_year.csv",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-12 12:01:32.782",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662981471106_542749300",
+      "id": "paragraph_1662981471106_542749300",
+      "dateCreated": "2022-09-12 11:17:51.106",
+      "dateStarted": "2022-09-12 12:01:32.795",
+      "dateFinished": "2022-09-12 12:01:32.932",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\nLink utili e approfondimenti:\n- [Approfondimento sulle Window](https://www.databricks.com/blog/2015/07/15/introducing-window-functions-in-spark-sql.html)\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:54:52.584",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003eLink utili e approfondimenti:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e\u003ca href\u003d\"https://www.databricks.com/blog/2015/07/15/introducing-window-functions-in-spark-sql.html\"\u003eApprofondimento sulle Window\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490382871_1303990894",
+      "id": "paragraph_1662490382871_1303990894",
+      "dateCreated": "2022-09-06 18:53:02.871",
+      "dateStarted": "2022-09-06 18:54:52.585",
+      "dateFinished": "2022-09-06 18:54:52.606",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%md\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-09-06 18:54:40.652",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1662490480651_604225765",
+      "id": "paragraph_1662490480651_604225765",
+      "dateCreated": "2022-09-06 18:54:40.652",
+      "status": "READY"
+    }
+  ],
+  "name": "Analisi Moviedata",
+  "id": "2HE7VH4XB",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
